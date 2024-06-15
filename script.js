@@ -217,11 +217,50 @@ document.addEventListener('DOMContentLoaded', (event) => {
     updateText();
   }
 
-  document.getElementById('downloadBtn').addEventListener('click', handleDownload);
+  // Function to handle the download of the customized image
+  function handleDownload() {
+    let tempCanvas = document.createElement('canvas');
+    let tempCtx = tempCanvas.getContext('2d');
 
+    let originalImage = new Image();
+    originalImage.onload = function () {
+      tempCanvas.width = this.naturalWidth;
+      tempCanvas.height = this.naturalHeight;
+
+      tempCtx.drawImage(originalImage, 0, 0, tempCanvas.width, tempCanvas.height);
+
+      let scaleX = tempCanvas.width / canvas.width;
+      let scaleY = tempCanvas.height / canvas.height;
+      let adjustedFontSize = fontSize * ((scaleX + scaleY) / 2);
+
+      tempCtx.font = `${adjustedFontSize}px ${fontFamily}`;
+      tempCtx.fillStyle = color;
+      tempCtx.textAlign = 'center';
+      tempCtx.textBaseline = 'middle';
+
+      let scaledX = tempCanvas.width / 2;
+      let scaledY = textPosition.y * scaleY;
+
+      tempCtx.fillText(name, scaledX, scaledY);
+
+      let imageName;
+      const [imageKey, size] = currentImageSrc.split('_');
+      if (size === 'square') {
+        imageName = `EidCardByMWDH-${imageKey}-Square.png`;
+      } else {
+        imageName = `EidCardByMWDH-${imageKey}-Rectangle.png`;
+      }
+
+      let link = document.createElement('a');
+      link.href = tempCanvas.toDataURL('image/png');
+      link.download = imageName;
+      link.click();
+    };
+    originalImage.src = currentImageSrc;
+  }
 
   // Event listener for the download button
-  const downloadButton = document.getElementById('downloadButton');
+  const downloadButton = document.getElementById('downloadBtn');
   downloadButton.addEventListener('click', handleDownload);
 
   // Initial setup: ensure no image is selected and all images are in real color
