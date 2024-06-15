@@ -255,8 +255,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
       link.href = tempCanvas.toDataURL('image/png');
       link.download = imageName;
       link.click();
+
+      // Show the download success modal after downloading the image
+      showDownloadSuccessModal();
     };
     originalImage.src = currentImageSrc;
+  }
+
+  // Function to show the download success modal
+  function showDownloadSuccessModal() {
+    const modal = document.getElementById('downloadSuccessModal');
+    modal.style.display = "block";
+
+    // When the user clicks on <span> (x), close the modal
+    document.querySelector('.close-button').onclick = function () {
+      modal.style.display = "none";
+    };
+
+    // Also close the modal if the user clicks anywhere outside of it
+    window.onclick = function (event) {
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    };
   }
 
   // Event listener for the download button
