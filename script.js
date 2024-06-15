@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   let fontFamily = 'EidFont';
   let color = document.querySelector('input[name="textColor"]:checked').value;
   let textPosition = { x: 0, y: 0 };
+  let hasSelectedImage = false;
 
   // Load the initial image
   const image = new Image();
@@ -142,13 +143,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
       updateRadioSelection();
       updateTickMarks();
       document.getElementById('customizationOptions').style.display = 'block';
+      hasSelectedImage = true; // Mark that an image has been selected
+      updateGrayscale(); // Update grayscale filtering
     });
   });
 
   // Event listeners for the image shape radio buttons
   document.querySelectorAll('input[name="imageShape"]').forEach((radio) => {
     radio.addEventListener('change', function () {
-      const selectedImage = document.querySelector('input[name="selectedImage"]:checked').value.split('_')[0];
+      const selectedImage = document.querySelector('input[name="selectedImage"]:checked')?.value.split('_')[0] || '';
       currentImageSrc = imageSources[selectedImage][this.value];
       loadImage(currentImageSrc); // Load the new image source
       updateRadioSelection();
@@ -171,23 +174,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     // Update grayscale effect on images based on selection
-    const selectedImage = document.querySelector('input[name="selectedImage"]:checked')?.value.split('_')[0] || '';
-    const selectedShape = document.querySelector('input[name="imageShape"]:checked')?.value || '';
-    if (selectedImage && selectedShape) {
-      updateGrayscale(selectedImage, selectedShape);
+    if (hasSelectedImage) {
+      updateGrayscale();
     }
   }
 
   // Function to apply grayscale filter to unselected images
-  function updateGrayscale(selectedImage, selectedShape) {
+  function updateGrayscale() {
+    const selectedImage = document.querySelector('input[name="selectedImage"]:checked')?.value.split('_')[0] || '';
     const imageChoices = document.querySelectorAll('.image-choice img');
     imageChoices.forEach(image => {
       image.style.filter = 'grayscale(100%)'; // Apply grayscale to all images initially
       image.closest('.image-choice').style.border = '1px solid #ddd'; // Reset border for all images initially
     });
 
-    if (selectedImage && selectedShape) {
-      const selectedImageElement = document.querySelector(`input[value="${selectedImage}_${selectedShape}"]`).closest('.image-choice').querySelector('img');
+    if (selectedImage) {
+      const selectedImageElement = document.querySelector(`input[value="${selectedImage}_square"]`).closest('.image-choice').querySelector('img');
       selectedImageElement.style.filter = 'none'; // Remove grayscale filter from the selected image
       selectedImageElement.closest('.image-choice').style.border = 'none'; // Remove border from the selected image
     }
@@ -286,8 +288,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
   const downloadButton = document.getElementById('downloadBtn');
   downloadButton.addEventListener('click', handleDownload);
 
-  // Initial setup: ensure all images are in real color
+  // Initial setup: ensure all images are in real color and no image is selected
+  document.querySelectorAll('.image-choice input[type="radio"]').forEach(radio => {
+    radio.checked = false; // Ensure no image is selected initially
+  });
   document.querySelectorAll('.image-choice img').forEach(image => {
     image.style.filter = 'none'; // Remove grayscale filter from all images initially
   });
+  document.getElementById('customizationOptions').style.display = 'none'; // Hide customization options initially
 });
