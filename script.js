@@ -173,7 +173,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // Update grayscale effect on images based on selection
     const selectedImage = document.querySelector('input[name="selectedImage"]:checked')?.value.split('_')[0] || '';
     const selectedShape = document.querySelector('input[name="imageShape"]:checked')?.value || '';
-    updateGrayscale(selectedImage, selectedShape);
+    if (selectedImage && selectedShape) {
+      updateGrayscale(selectedImage, selectedShape);
+    }
   }
 
   // Function to apply grayscale filter to unselected images
@@ -284,6 +286,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
   const downloadButton = document.getElementById('downloadBtn');
   downloadButton.addEventListener('click', handleDownload);
 
-  // Initial setup: ensure no image is selected and all images are in real color
-  updateGrayscale('', '');
+  // Initial setup: ensure all images are in real color
+  document.querySelectorAll('.image-choice img').forEach(image => {
+    image.style.filter = 'none'; // Remove grayscale filter from all images initially
+  });
 });
