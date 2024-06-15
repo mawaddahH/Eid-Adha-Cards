@@ -1,0 +1,455 @@
+/* Custom font setup for use throughout the page */
+@import url(https://fonts.googleapis.com/earlyaccess/lateef.css);
+
+@font-face {
+  font-family: 'EidFont'; /* Assigns a name to the custom font for reference */
+  font-family: 'Lateef', serif;
+  src: url('خط غريتا (عادي).ttf') format('truetype'); /* Specifies the font file and format */
+  font-weight: normal; /* Default font weight */
+  font-style: normal; /* Default font style */
+}
+
+
+body {
+  display: flex;
+  flex-direction: column; /* Stacks child elements vertically */
+  align-items: center; /* Centers child elements horizontally */
+  padding-top: 20px; /* Adds spacing at the top of the page */
+  text-align: center; /* Centers inline or inline-block children */
+  margin: auto;
+  overflow: auto;
+}
+
+
+/* Styles for image grid */
+.image-grid-container {
+  width: 100%; /* Full width of the viewport */
+  overflow-x: auto; /* Enable horizontal scrolling if necessary */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  padding-bottom: 5px; /* Ensure space for scrollbar */
+  scrollbar-width: none; /* Hides scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hides scrollbar for IE and Edge */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: flex-start; /* Align items to the start vertically */
+  margin-top: -10px; /* Adjust margin as needed */
+  margin-bottom: -10px; /* Adjust margin as needed */
+}
+
+.image-grid {
+  display: flex;
+  padding: 10px;
+  width: calc(100% + 20px); /* Adjust as needed */
+  margin-left: -1px; /* Adjust for padding */
+  justify-content: center;
+}
+
+/* Styles for individual images in the grid */
+.image-choice {
+  position: relative;
+  width: 100px; /* Adjust width as needed */
+  height: 100px; /* Adjust height as needed */
+  margin: 10px;
+  border: 1px solid #161E70; /* Change the color here */
+  border-radius: 5px;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+
+.image-choice img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure images fill the container */
+  display: block;
+  transition: filter 0.3s; /* Smooth transition for grayscale effect */
+}
+
+.image-choice input[type="radio"] {
+  display: none;
+}
+
+.image-choice input[type="radio"]:checked + .tick-mark {
+  display: block;
+}
+
+.tick-mark {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 16px;
+  color: green;
+  display: none;
+}
+
+/* General container styles */
+.image-container, .controls, button {
+  align-items: flex-start; /* Aligns child elements to the start of the cross axis */
+  width: 100%; /* Makes the element width equal to 100% of its parent's width */
+}
+/* font-family: 'Lateef', serif; */
+
+.image-container {
+  margin-bottom: 20px; /* Adds margin below the image container */
+  color: #03202F; /* Set the text color to black */
+  font-size: 20px; /* Make the text size smaller */
+  font-family: 'Lateef', serif;
+  animation: reveal 3000ms ease-in-out forwards 200ms, glow 2500ms linear infinite 2000ms;
+}
+
+@keyframes reveal {
+  80% {
+    letter-spacing: 8px;
+  }
+  100% {
+    background-size: 300% 300%;
+  }
+}
+
+@keyframes glow {
+  40% {
+    text-shadow: 0 0 8px #F3EEED;
+  }
+}
+
+
+.image-container, .controls {
+  display: flex;
+  flex-direction: column; /* Stacks children vertically */
+  align-items: center; /* Centers children horizontally */
+  justify-content: center; /* Centers children vertically */
+  margin-top: 20px; /* Adds spacing above these containers */
+}
+
+.controls {
+  align-items: flex-start; /* Specifically targets the .controls class for alignment */
+  margin-top: 10px; /* Adjusted margin to 10px from 20px */
+}
+
+#imageCanvas {
+  border: 1px solid #ccc; /* Adds a light grey border around the canvas */
+}
+
+/* Input styles */
+input[type="text"], #nameInput {
+  padding: 10px; /* Adds padding inside the inputs for better text visibility */
+  margin-bottom: 1px; /* Adds space below the inputs */
+  border: 1px solid #ccc; /* Light grey border for distinction */
+  border-radius: 5px; /* Rounds the corners of the inputs */
+  background: transparent; /* Transparent background for a clean look */
+  position: relative; /* Allows absolute positioning of child elements relative to this */
+  text-align: center; /* Centers the text inside the inputs */
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px; /* Adds a subtle shadow for depth */
+  min-width: 190px; /* Minimum width to ensure consistency */
+  max-width: 200px; /* Minimum width to ensure consistency */
+  height: auto; /* Set height to auto */
+}
+
+input[type="text"]:focus, #nameInput:focus {
+  outline: none; /* Removes the default focus outline */
+  background-color: #ededed; /* Sets a light grey background to indicate focus */
+}
+
+/* Button styles */
+button {
+  background-color: rgba(51, 51, 51, 0.05); /* Very light grey background */
+  border-radius: 8px; /* Rounded corners for a modern look */
+  border-width: 0; /* Removes the default border */
+  color: #333333; /* Dark grey text color for contrast */
+  cursor: pointer; /* Changes the cursor to a pointer to indicate it's clickable */
+  font-size: 20px; /* Sets the font size */
+  font-weight: 500; /* Medium font weight for emphasis */
+  line-height: 20px; /* Adjusts the space between lines of text */
+  margin: 20px; /* Adds space around the button */
+  padding: 10px 12px; /* Inner padding for better text visibility */
+  text-align: center; /* Centers the button text */
+  transition: all 200ms; /* Smooth transition for background and shadow changes */
+  width: 320px; /* Sets a fixed width for the buttons */
+  font-family: 'Lateef', serif;
+}
+
+button:hover {
+  background-color: #45a049; /* Changes background to a green color on hover */
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px; /* Adds a shadow for depth */
+}
+
+/* Styles for pickers and containers */
+#imagePicker, #colorPicker, .parent-container {
+  text-align: center; /* Centers text within these containers */
+  margin-bottom: 15px; /* Adds space below these containers */
+}
+
+#imagePicker, #colorPicker {
+  display: flex;
+  align-items: center; /* Vertically centers items */
+  flex-direction: row-reverse; /* Arranges items from right to left for RTL support */
+  justify-content: center; /* Centers items horizontally */
+  gap: 2px; /* Adds spacing between items */
+  text-align: center; /* Centers text within these containers */
+  margin-bottom: 20px; /* Adds space below these containers */
+  margin: 1px;
+}
+
+#imagePicker label, #colorPicker label {
+  margin: 1px; /* Adds margin around each label */
+  display: flex;
+  align-items: center; /* Centers label content vertically */
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px; /* Adds subtle shadow for depth */
+  text-align: center; /* Centers text within these containers */
+}
+
+/* Styles for color choice */
+.color-choice {
+  align-items: center; /* Centers content vertically */
+  justify-content: center; /* Centers content horizontally */
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin: 0 5px;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+}
+
+#colorPicker input[type="radio"] {
+  opacity: 0; /* Makes the radio button invisible */
+  position: absolute; /* Positions the radio button absolutely within its parent */
+}
+
+#colorPicker .tick-mark {
+  display: none; /* Initially hidden */
+  position: absolute; /* Positioning relative to the parent */
+  top: 5px; /* Distance from the top */
+  right: 5px; /* Distance from the right */
+  font-size: 25px; /* Size of the tick mark */
+  color: #fff; /* Color of the tick mark */
+}
+
+#colorPicker input[type="radio"]:checked + .tick-mark {
+  display: inline; /* Displays the tick mark when the radio button is checked */
+}
+
+/* Styles for modal */
+.modal {
+  display: none; /* Initially hidden */
+  position: fixed; /* Stays in the same place during scrolling */
+  z-index: 1000; /* Ensures it stays on top of other content */
+  left: 0; /* Places it at the left edge */
+  top: 0; /* Places it at the top edge */
+  width: 100%; /* Covers the entire viewport width */
+  height: 100%; /* Covers the entire viewport height */
+  overflow: auto; /* Enables scrolling if the content is larger than the viewport */
+  background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent black background */
+}
+
+.modal-content {
+  background-color: #fefefe; /* White background for the content */
+  margin: 15% auto; /* Centers the modal vertically and horizontally */
+  padding: 20px; /* Padding inside the modal */
+  border: 1px solid #888; /* Border around the modal */
+  width: 80%; /* Takes up 80% of the viewport width */
+  max-width: 400px; /* But not more than 400px */
+  text-align: center; /* Centers the text inside the modal */
+}
+
+.close-button {
+  color: #aaa; /* Light grey color for the button */
+  float: right; /* Positions it to the right */
+  font-size: 28px; /* Large size for easy clicking */
+  font-weight: bold; /* Bold for emphasis */
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black; /* Dark color on hover/focus for better visibility */
+  text-decoration: none; /* Removes underline on focus */
+  cursor: pointer; /* Indicates it's clickable */
+}
+
+/* Styles for shape choice */
+.shape-choice {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #fff;
+  text-align: center;
+  position: relative;
+}
+
+.shape-choice input[type="radio"] {
+  display: none;
+}
+
+.shape-choice .tick-mark {
+  display: none;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 25px;
+  color: #4CAF50;
+}
+
+.shape-choice input[type="radio"]:checked + .tick-mark {
+  display: inline;
+}
+
+/* Specific styles for customization table with simple UI/UX */
+#customizationTable {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Two columns with the first column being wider */
+  gap: 1px; /* More space between columns for better readability */
+  margin-bottom: 10px; /* More margin for better spacing */
+  width: 100%; /* Slightly reduce width for padding */
+  max-width: 300px; /* Increase max width for better visibility */
+  margin: 0 auto; /* Centers the table horizontally */
+  padding: 10px; /* Increase padding for better spacing */
+  border-collapse: collapse; /* Collapses border spacing */
+  background-color: #f8f9fa; /* Light grey background for better contrast */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Softer shadow for a subtle effect */
+  border-radius: 8px; /* Rounded corners for modern look */
+  text-align: right; /* Aligns text to the right */
+  font-family: 'Lateef', serif; /* Apply the Lateef font */
+}
+
+.table-row {
+  display: contents; /* Allow grid children to behave like table rows */
+}
+
+.table-cell {
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+.table-cell:last-child {
+  justify-content: flex-end; /* Align to the right */
+  padding-right: 1px; /* Add padding for better spacing */
+}
+
+#customizationTable label {
+  cursor: pointer; /* Change cursor to pointer to indicate clickable items */
+  padding: 10px; /* Add padding for better spacing */
+  transition: background-color 0.3s ease; /* Smooth transition for background color change */
+}
+
+#customizationTable label:hover {
+  background-color: #e2e6ea; /* Light background color on hover for better UX */
+}
+
+
+/* Ensure spans are aligned to the right */
+#imagePicker span,
+.controls span {
+  text-align: right;
+  font-family: 'Lateef', serif;
+}
+
+/* Parent container styles */
+.parent-container {
+  display: flex;
+  align-items: center; /* Vertically centers the flex items */
+  flex-direction: row-reverse; /* Lays out children from right to left */
+  justify-content: flex-start; /* Aligns children to the start (right side) */
+  gap: 10px; /* Space between each child element */
+}
+
+/* Input group styles */
+.input-group {
+  display: flex;
+  align-items: center; /* Centers items vertically */
+  width: 100%;
+  text-align: center; /* Center text */
+  justify-content: center; /* Center horizontally */
+  margin-right: 10px;
+  padding: 5px 10px; /* Adjust padding as needed */
+  margin: 5px; /* Adjust margin as needed */
+  cursor: pointer; /* Pointer cursor on hover */
+  position: relative; /* Positioning */
+  min-width: 80px; /* Minimum width to ensure consistency */
+  height: auto; /* Set height to auto */
+}
+
+/* Prevent body from scrolling horizontally when image-grid is scrolled */
+body {
+  overflow-x: hidden;
+  font-family: 'Lateef', serif;
+}
+
+/* Adjust spacing between shape and color choices */
+.shape-choice, .color-choice {
+  margin: 0 5px; /* Adjust spacing between choices */
+}
+
+
+
+.color-choice input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.color-choice .tick-mark {
+  display: none;
+  color: white;
+  font-weight: bold;
+  font-size: 25px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.color-choice input[type="radio"]:checked + .tick-mark {
+  display: block;
+}
+
+.shape-choice {
+  display: inline-block; /* Ensures elements are block-level but inline for proper layout */
+  align-items: center;
+  margin-right: 10px;
+  padding: 5px 10px; /* Adjust padding as needed */
+  margin: 5px; /* Adjust margin as needed */
+  border: 1px solid #ddd; /* Border style */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  background-color: #fff; /* Background color */
+  text-align: center; /* Center text */
+  position: relative; /* Positioning */
+  min-width: 80px; /* Minimum width to ensure consistency */
+  height: auto; /* Set height to auto */
+}
+
+.tick-mark {
+  display: none;
+}
+
+input[type="radio"]:checked + .tick-mark {
+  display: inline-block;
+}
+
+.image-choice input[type="radio"]:checked + img {
+  border: 2px solid #4CAF50; /* Green border style */
+}
+
+
+
+.header-container {
+  width: 100%;
+  height: 70px;
+  background-color: #FFF3F3;
+  position: fixed;
+  top: 0;
+  left: 10;
+  z-index: 1000; /* Ensures header stays on top */
+  display: flex;
+  justify-content: flex-end; /* Aligns the logo to the right */
+  padding: 10px 20px; /* Adds some padding for spacing */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
+}
+
+.logo-container img {
+  width: 200px; /* Adjust the width as needed */
+  height: auto;
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بطاقة تهنئة عيد الفطر لجمعية موعظة 2024</title>
+  <meta name="description" content="بطاقة تهنئة للاستخدام الشخصي ، جمعية موعظة ، تصميم مودة حنبلي">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header with Company Logo -->
+  <header class="header-container">
+    <div class="logo-container">
+      <img src="MaweizaLogo.png" alt="Company Logo"> <!-- Replace 'MaweizaLogo.png' with the path to your logo image -->
+    </div>
+  </header>
+
+  <!-- Greeting Card Title Container -->
+  <div class="image-container" style="margin-top: 80px;">
+    <span>بطاقة معايدة عيد الأضحى</span>
+  </div>
+
+  <!-- Greeting Card Title Container -->
+  <div class="choose-image" style="font-size: 20px;">
+    <span>اختر صورة</span>
+  </div>
+  <!-- Image Selection Section -->
+  <!-- Users can select one of the four images to customize -->
+  <div id="imageSelection" class="image-grid-container">
+    <div class="image-grid">
+      <label for="image1" class="image-choice">
+        <input type="radio" id="image1" name="selectedImage" value="imageOne_square">
+        <img src="تهنئة-العيد1-مربع.png" alt="Image 1">
+        <span class="tick-mark">✓</span>
+      </label>
+      <label for="image3" class="image-choice">
+        <input type="radio" id="image3" name="selectedImage" value="imageTwo_square">
+        <img src="تهنئة-العيد2-مربع.png" alt="Image 3">
+        <span class="tick-mark">✓</span>
+      </label>
+      <label for="image5" class="image-choice">
+        <input type="radio" id="image5" name="selectedImage" value="imageThree_square">
+        <img src="تهنئة-العيد3-مربع.png" alt="Image 5">
+        <span class="tick-mark">✓</span>
+      </label>
+      <label for="image7" class="image-choice">
+        <input type="radio" id="image7" name="selectedImage" value="imageFour_square">
+        <img src="تهنئة-العيد4-مربع.png" alt="Image 7">
+        <span class="tick-mark">✓</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Hidden Container for Customization Options -->
+  <div id="customizationOptions" style="display: none;">
+    <!-- Image Display Container -->
+    <div class="image-container">
+      <canvas id="imageCanvas" width="500" height="500"></canvas>
+    </div>
+
+    <!-- Image Shape Picker Section -->
+    <div id="customizationTable">
+      <div class="table-row">
+        <div class="table-cell">
+          <label for="shapeSquare" class="shape-choice">
+            <input type="radio" id="shapeSquare" name="imageShape" value="square">
+            <span class="tick-mark">✓</span>
+            مربع
+          </label>
+          <label for="shapeRectangle" class="shape-choice">
+            <input type="radio" id="shapeRectangle" name="imageShape" value="rectangle">
+            <span class="tick-mark">✓</span>
+            مستطيل
+          </label>
+        </div>
+        <span style="font-size: 20px;" class="table-cell" style="text-align: right;">المقاس</span>
+      </div>
+
+      <!-- Text and Color Controls Section -->
+      <div class="table-row">
+        <div class="table-cell">
+          <div class="input-group">
+            <input type="text" id="nameInput" class="effect-13" placeholder="اكتب الاسم">
+          </div>
+        </div>
+        <span style="font-size: 20px;" class="table-cell" style="text-align: right;">النــــص</span>
+      </div>
+
+      <div class="table-row">
+        <div class="table-cell">
+          <label for="color1" class="color-choice" style="background-color: #9A682C;">
+            <input type="radio" id="color1" name="textColor" value="#9A682C" checked>
+            <span class="tick-mark">✓</span>
+          </label>
+          <label for="color2" class="color-choice" style="background-color: #892525;">
+            <input type="radio" id="color2" name="textColor" value="#892525">
+            <span class="tick-mark">✓</span>
+          </label>
+          <label for="color3" class="color-choice" style="background-color: #565654;">
+            <input type="radio" id="color3" name="textColor" value="#565654">
+            <span class="tick-mark">✓</span>
+          </label>
+          <label for="color4" class="color-choice" style="background-color: #0F0F0F;">
+            <input type="radio" id="color4" name="textColor" value="#0F0F0F">
+            <span class="tick-mark">✓</span>
+          </label>
+        </div>
+        <span style="font-size: 20px;" class="table-cell" style="text-align: right;">لــون الـنص</span>
+      </div>
+    </div>
+    <!-- Download Button -->
+    <button id="downloadBtn">تنزيل الصورة</button>
+  </div>
+
+
+
+  <!-- Modal Popup for Download Success -->
+  <div id="downloadSuccessModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">×</span>
+      <p>تم تحميل الصورة بنجاح</p>
+      <p>تصميم: مودة حنبلي</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
