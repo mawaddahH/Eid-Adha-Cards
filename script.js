@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   let currentImageSrc = '';
   let name = 'اكتب اسمك';
   let fontSize;
-  const squareFontSize = 15;
+  const squareFontSize =16;
   const rectangleFontSize = 10;
   const fontFamily = 'EidFont';
   let color = document.querySelector('input[name="textColor"]:checked').value;
@@ -90,9 +90,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const selectedShape = document.querySelector('input[name="imageShape"]:checked')?.value || defaultCustomizationOptions.imageShape;
 
     if (selectedShape === 'square') {
+      fontSize=squareFontSize;
       textPosition.y = canvas.height * relativeYPositionSquare;
     } else if (selectedShape === 'rectangle') {
       textPosition.y = canvas.height * relativeYPositionRectangle;
+      fontSize=rectangleFontSize;
     }
 
     console.log(`Text position set to: ${textPosition.x}, ${textPosition.y}`);
