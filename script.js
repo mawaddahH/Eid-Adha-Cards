@@ -218,7 +218,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
       tempCtx.drawImage(originalImage, 0, 0, tempCanvas.width, tempCanvas.height);
 
-      let scaleX = tempCanvas.width / canvas.width;
       let scaleY = tempCanvas.height / canvas.height;
 
       tempCtx.font = `${fontSize * scaleY}px ${fontFamily}`;
@@ -227,7 +226,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       tempCtx.textBaseline = 'middle';
 
       let scaledX = tempCanvas.width / 2;
-      let scaledY = (textPosition.y * tempCanvas.height) / canvas.height;
+      let scaledY = textPosition.y * scaleY;
 
       tempCtx.fillText(name, scaledX, scaledY);
 
