@@ -226,7 +226,7 @@ function handleDownload() {
     let scaleY = originalImage.naturalHeight / canvas.height;
 
     // Increase the font size for the downloaded image
-    let adjustedFontSize = fontSize * (scaleX + scaleY) * 2; // average scale factor
+    let adjustedFontSize = fontSize * ((scaleX + scaleY) / 2);
     let adjustedTextPositionX = textPosition.x * scaleX;
     let adjustedTextPositionY = textPosition.y * scaleY;
 
