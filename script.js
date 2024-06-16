@@ -228,7 +228,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
       let scaleX = originalImage.naturalWidth / canvas.width;
       let scaleY = originalImage.naturalHeight / canvas.height;
 
-      let adjustedFontSize = fontSize * ((scaleX + scaleY) / 2);
+   // Calculate the scaling factor
+    let scaleY = originalImage.naturalHeight / canvas.height;
+
+    // Adjust the font size based on the scale factor
+    let adjustedFontSize = fontSize * scaleY;
       let adjustedTextPositionX = textPosition.x * scaleX;
       let adjustedTextPositionY = textPosition.y * scaleY;
 
