@@ -23,21 +23,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
   };
 
-  // Set initial values for various customization options
-  let currentImageSrc = ''; // No initial image source
+  // Initial setup for various customization options
+  let currentImageSrc = '';
   let name = 'اكتب اسمك';
   let fontSize;
-  let squareFontSize = 15;
-  let rectangleFontSize = 10;
-  let fontFamily = 'EidFont';
+  const squareFontSize = 15;
+  const rectangleFontSize = 10;
+  const fontFamily = 'EidFont';
   let color = document.querySelector('input[name="textColor"]:checked').value;
   let textPosition = { x: 0, y: 0 };
   let hasSelectedImage = false;
 
-  // Load the initial image
+  // Create a new Image object to load and display images
   const image = new Image();
 
-  // Define default values for customization options
+  // Default customization options
   const defaultCustomizationOptions = {
     imageShape: 'square',
     textColor: '#9A682C'
@@ -47,8 +47,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
   function loadImage(src) {
     image.onload = function () {
       updateCanvasSize();
-      setTextPosition(); // Ensure text position is set initially
-      updateText(); // Ensure text is drawn initially
+      setTextPosition();
+      updateText();
     };
     image.src = src;
   }
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   // Function to update the size of the canvas based on the image dimensions and device width
   function updateCanvasSize() {
     const devicePixelRatio = window.devicePixelRatio || 1;
-    let maxWidth = window.innerWidth - 20; // Set max width for mobile view
+    let maxWidth = window.innerWidth - 20;
 
     // Set maxWidth to 400px for larger screens (laptops)
     if (window.innerWidth > 400) {
@@ -89,17 +89,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
       fontSize = (width > height ? height : width) / 14;
     }
 
-    setTextPosition(); // Update text position whenever canvas size changes
+    setTextPosition();
   }
 
   // Function to set the position of the text on the canvas
   function setTextPosition() {
-    const relativeYPositionSquare = 0.82;     // Adjust this value for square images
-    const relativeYPositionRectangle = 0.75; // Adjust this value for rectangle images
+    const relativeYPositionSquare = 0.82;
+    const relativeYPositionRectangle = 0.75;
 
     textPosition.x = canvas.width / 2 / (window.devicePixelRatio || 1);
 
-    // Check which radio button is checked for image shape
     const selectedShape = document.querySelector('input[name="imageShape"]:checked')?.value || defaultCustomizationOptions.imageShape;
 
     if (selectedShape === 'square') {
@@ -113,15 +112,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   // Function to update the text on the canvas
   function updateText() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (currentImageSrc) {
-      ctx.drawImage(image, 0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1)); // Draw the image if an image source is set
+      ctx.drawImage(image, 0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1));
     }
-    ctx.font = `${fontSize}px ${fontFamily}`; // Set the font style
-    ctx.fillStyle = color; // Set the text color
-    ctx.textAlign = 'center'; // Center the text horizontally
-    ctx.textBaseline = 'middle'; // Center the text vertically
-    ctx.fillText(name, textPosition.x, textPosition.y); // Draw the text
+    ctx.font = `${fontSize}px ${fontFamily}`;
+    ctx.fillStyle = color;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(name, textPosition.x, textPosition.y);
   }
 
   // Event listener for the name input field
@@ -136,7 +135,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       color = this.value;
       updateText();
       updateTickMarks();
-      setTextPosition(); // Ensure text position is set initially
+      setTextPosition();
     });
   });
 
@@ -145,13 +144,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
     radio.addEventListener('change', function () {
       const [imageKey, size] = this.value.split('_');
       currentImageSrc = imageSources[imageKey][size];
-      loadImage(currentImageSrc); // Load the new image source
-      resetCustomizationOptions(false); // Pass false to avoid resetting the color
+      loadImage(currentImageSrc);
+      resetCustomizationOptions(false);
       updateRadioSelection();
       updateTickMarks();
       document.getElementById('customizationOptions').style.display = 'block';
-      hasSelectedImage = true; // Mark that an image has been selected
-      updateGrayscale(); // Update grayscale filtering
+      hasSelectedImage = true;
+      updateGrayscale();
     });
   });
 
@@ -160,7 +159,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     radio.addEventListener('change', function () {
       const selectedImage = document.querySelector('input[name="selectedImage"]:checked')?.value.split('_')[0] || '';
       currentImageSrc = imageSources[selectedImage][this.value];
-      loadImage(currentImageSrc); // Load the new image source
+      loadImage(currentImageSrc);
       updateRadioSelection();
     });
   });
@@ -180,7 +179,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
       }
     });
 
-    // Update grayscale effect on images based on selection
     if (hasSelectedImage) {
       updateGrayscale();
     }
@@ -191,14 +189,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const selectedImage = document.querySelector('input[name="selectedImage"]:checked')?.value.split('_')[0] || '';
     const imageChoices = document.querySelectorAll('.image-choice img');
     imageChoices.forEach(image => {
-      image.style.filter = 'grayscale(100%)'; // Apply grayscale to all images initially
-      image.closest('.image-choice').style.border = '1px solid #ddd'; // Reset border for all images initially
+      image.style.filter = 'grayscale(100%)';
+      image.closest('.image-choice').style.border = '1px solid #ddd';
     });
 
     if (selectedImage) {
       const selectedImageElement = document.querySelector(`input[value="${selectedImage}_square"]`).closest('.image-choice').querySelector('img');
-      selectedImageElement.style.filter = 'none'; // Remove grayscale filter from the selected image
-      selectedImageElement.closest('.image-choice').style.border = 'none'; // Remove border from the selected image
+      selectedImageElement.style.filter = 'none';
+      selectedImageElement.closest('.image-choice').style.border = 'none';
     }
   }
 
@@ -216,7 +214,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   // Function to reset the customization options to default values
   function resetCustomizationOptions(resetColor = true) {
-    // Reset image shape to default
     document.querySelector(`input[name="imageShape"][value="${defaultCustomizationOptions.imageShape}"]`).checked = true;
 
     if (resetColor) {
@@ -267,7 +264,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
       link.download = imageName;
       link.click();
 
-      // Show the download success modal after downloading the image
       showDownloadSuccessModal();
     };
     originalImage.src = currentImageSrc;
@@ -278,12 +274,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const modal = document.getElementById('downloadSuccessModal');
     modal.style.display = "block";
 
-    // When the user clicks on <span> (x), close the modal
     document.querySelector('.close-button').onclick = function () {
       modal.style.display = "none";
     };
 
-    // Also close the modal if the user clicks anywhere outside of it
     window.onclick = function (event) {
       if (event.target === modal) {
         modal.style.display = "none";
@@ -297,10 +291,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   // Initial setup: ensure all images are in real color and no image is selected
   document.querySelectorAll('.image-choice input[type="radio"]').forEach(radio => {
-    radio.checked = false; // Ensure no image is selected initially
+    radio.checked = false;
   });
   document.querySelectorAll('.image-choice img').forEach(image => {
-    image.style.filter = 'none'; // Remove grayscale filter from all images initially
+    image.style.filter = 'none';
   });
-  document.getElementById('customizationOptions').style.display = 'none'; // Hide customization options initially
+  document.getElementById('customizationOptions').style.display = 'none';
 });
