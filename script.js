@@ -53,24 +53,31 @@ document.addEventListener('DOMContentLoaded', (event) => {
     image.src = src;
   }
 
-  // Function to update the size of the canvas based on the image dimensions
+  // Function to update the size of the canvas based on the image dimensions and device width
   function updateCanvasSize() {
-    let imgRatio = image.naturalWidth / image.naturalHeight;
-    let containerMaxSize = 300;
+    const devicePixelRatio = window.devicePixelRatio || 1;
+    let maxWidth = window.innerWidth - 20; // Set max width for mobile view
 
-    if (imgRatio > 1) {
-      // Landscape orientation
-      canvas.width = containerMaxSize;
-      canvas.height = containerMaxSize / imgRatio;
-    } else if (imgRatio < 1) {
-      // Portrait orientation
-      canvas.width = containerMaxSize * imgRatio;
-      canvas.height = containerMaxSize;
-    } else {
-      // Square orientation
-      canvas.width = containerMaxSize;
-      canvas.height = containerMaxSize;
+    // Set maxWidth to 400px for larger screens (laptops)
+    if (window.innerWidth > 400) {
+      maxWidth = 400;
     }
+
+    let width, height;
+
+    if (image.naturalWidth > image.naturalHeight) {
+      width = maxWidth;
+      height = (image.naturalHeight / image.naturalWidth) * maxWidth;
+    } else {
+      height = maxWidth;
+      width = (image.naturalWidth / image.naturalHeight) * maxWidth;
+    }
+
+    canvas.width = width * devicePixelRatio;
+    canvas.height = height * devicePixelRatio;
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
 
     const selectedShape = document.querySelector('input[name="imageShape"]:checked')?.value || defaultCustomizationOptions.imageShape;
 
@@ -79,7 +86,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     } else if (selectedShape === 'rectangle') {
       fontSize = rectangleFontSize;
     } else {
-      fontSize = (canvas.width > canvas.height ? canvas.height : canvas.width) / 14;
+      fontSize = (width > height ? height : width) / 14;
     }
 
     setTextPosition(); // Update text position whenever canvas size changes
@@ -90,15 +97,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const relativeYPositionSquare = 0.82;     // Adjust this value for square images
     const relativeYPositionRectangle = 0.75; // Adjust this value for rectangle images
 
-    textPosition.x = canvas.width / 2;
+    textPosition.x = canvas.width / 2 / (window.devicePixelRatio || 1);
 
     // Check which radio button is checked for image shape
     const selectedShape = document.querySelector('input[name="imageShape"]:checked')?.value || defaultCustomizationOptions.imageShape;
 
     if (selectedShape === 'square') {
-      textPosition.y = canvas.height * relativeYPositionSquare;
+      textPosition.y = canvas.height * relativeYPositionSquare / (window.devicePixelRatio || 1);
     } else if (selectedShape === 'rectangle') {
-      textPosition.y = canvas.height * relativeYPositionRectangle;
+      textPosition.y = canvas.height * relativeYPositionRectangle / (window.devicePixelRatio || 1);
     }
 
     console.log(`Text position set to: ${textPosition.x}, ${textPosition.y}`);
@@ -108,7 +115,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   function updateText() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
     if (currentImageSrc) {
-      ctx.drawImage(image, 0, 0, canvas.width, canvas.height); // Draw the image if an image source is set
+      ctx.drawImage(image, 0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1)); // Draw the image if an image source is set
     }
     ctx.font = `${fontSize}px ${fontFamily}`; // Set the font style
     ctx.fillStyle = color; // Set the text color
