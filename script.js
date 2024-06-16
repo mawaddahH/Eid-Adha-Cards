@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
   let currentImageSrc = '';
   let name = 'اكتب اسمك';
   let fontSize;
-  const squareFontSize = 30;  // Increased font size for better visibility
-  const rectangleFontSize = 20; // Increased font size for better visibility
+  const squareFontSize = 30;
+  const rectangleFontSize = 20;
   const fontFamily = 'EidFont';
   let color = document.querySelector('input[name="textColor"]:checked').value;
   let textPosition = { x: 0, y: 0 };
@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
   }
 
   function updateCanvasSize() {
-    const maxWidth = 300;  // Fixed smaller width for canvas display
     const devicePixelRatio = window.devicePixelRatio || 1;
+    let maxWidth = 300; // Fixed smaller width for canvas display
 
     let width, height;
 
