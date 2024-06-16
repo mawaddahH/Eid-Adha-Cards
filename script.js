@@ -206,41 +206,31 @@ document.addEventListener('DOMContentLoaded', (event) => {
     updateRadioSelection();
     updateText();
   }
-  function handleDownload() {
+ function handleDownload() {
     let tempCanvas = document.createElement('canvas');
     let tempCtx = tempCanvas.getContext('2d');
 
     let originalImage = new Image();
     originalImage.onload = function () {
-      // Set the temporary canvas dimensions to match the original image dimensions
-      tempCanvas.width = this.naturalWidth;
-      tempCanvas.height = this.naturalHeight;
+      tempCanvas.width = originalImage.naturalWidth;
+      tempCanvas.height = originalImage.naturalHeight;
 
-      // Draw the original image onto the temporary canvas
       tempCtx.drawImage(originalImage, 0, 0, tempCanvas.width, tempCanvas.height);
 
-      // Calculate the scaling factors between the display canvas and the original image
       let scaleX = tempCanvas.width / canvas.width;
       let scaleY = tempCanvas.height / canvas.height;
 
-      // Calculate average scale factor for uniform scaling
-      let scale = (scaleX + scaleY) / 2;
-
-      // Adjust the font size and text position based on the scaling factors
-      let adjustedFontSize = fontSize * scale;
+      let adjustedFontSize = fontSize * scaleY;
       let adjustedTextPositionX = textPosition.x * scaleX;
       let adjustedTextPositionY = textPosition.y * scaleY;
 
-      // Set the font properties for the temporary canvas context
       tempCtx.font = `${adjustedFontSize}px ${fontFamily}`;
       tempCtx.fillStyle = color;
       tempCtx.textAlign = 'center';
       tempCtx.textBaseline = 'middle';
 
-      // Draw the text onto the temporary canvas at the adjusted position
       tempCtx.fillText(name, adjustedTextPositionX, adjustedTextPositionY);
 
-      // Generate the image file name based on the selected image key and size
       let imageName;
       const [imageKey, size] = currentImageSrc.split('_');
       if (size === 'square') {
@@ -249,19 +239,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
         imageName = `EidCardByMWDH-${imageKey}-Rectangle.png`;
       }
 
-      // Create a download link for the image and trigger the download
       let link = document.createElement('a');
       link.href = tempCanvas.toDataURL('image/png');
       link.download = imageName;
       link.click();
 
-      // Show the download success modal
       showDownloadSuccessModal();
     };
-
-    // Set the source of the original image to trigger the onload event
     originalImage.src = currentImageSrc;
   }
+
 
 
   function showDownloadSuccessModal() {
