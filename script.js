@@ -214,13 +214,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
       tempCtx.drawImage(originalImage, 0, 0, tempCanvas.width, tempCanvas.height);
 
-      // Calculate scaling ratios
+      // Calculate scaling ratios based on the canvas and the original image
       let scaleX = originalImage.naturalWidth / canvas.width;
       let scaleY = originalImage.naturalHeight / canvas.height;
 
-      let adjustedFontSize = fontSize * scaleY;
-      let adjustedTextPositionX = textPosition.x * scaleX;
-      let adjustedTextPositionY = textPosition.y * scaleY;
+      let adjustedFontSize = fontSize * scaleY; // Scale the font size based on height
+      let adjustedTextPositionX = textPosition.x * scaleX; // Scale X position
+      let adjustedTextPositionY = textPosition.y * scaleY; // Scale Y position
 
       tempCtx.font = `${adjustedFontSize}px ${fontFamily}`;
       tempCtx.fillStyle = color;
