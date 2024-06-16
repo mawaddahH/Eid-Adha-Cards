@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     canvas.style.height = `${size}px`;
   }
 
+
   // Function to load an image and draw it to fit within the canvas
   function loadImage(src) {
     image.onload = function () {
@@ -212,7 +213,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     updateText();
   }
 
-  // Function to handle the download of the customized image
   function handleDownload() {
     let tempCanvas = document.createElement('canvas');
     let tempCtx = tempCanvas.getContext('2d');
@@ -224,12 +224,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
       tempCtx.drawImage(originalImage, 0, 0, tempCanvas.width, tempCanvas.height);
 
-      // Scale the font size and text position based on the scale of the original image to the canvas
-      let scaleX = originalImage.naturalWidth / canvas.width;
+      // Calculate the scaling factor
       let scaleY = originalImage.naturalHeight / canvas.height;
- // Adjust the font size based on the scale factor
- let adjustedFontSize = fontSize * scaleY;
-      let adjustedTextPositionX = textPosition.x * scaleX;
+
+      // Adjust the font size based on the scale factor
+      let adjustedFontSize = fontSize * scaleY;
+      let adjustedTextPositionX = textPosition.x * scaleY;
       let adjustedTextPositionY = textPosition.y * scaleY;
 
       tempCtx.font = `${adjustedFontSize}px ${fontFamily}`;
@@ -256,6 +256,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     };
     originalImage.src = currentImageSrc;
   }
+
 
   // Function to show the download success modal
   function showDownloadSuccessModal() {
