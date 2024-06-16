@@ -1,9 +1,7 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-  // Get the canvas element and its 2D rendering context
   const canvas = document.getElementById('imageCanvas');
   const ctx = canvas.getContext('2d');
 
-  // Define the sources for the images based on their shapes
   const imageSources = {
     imageOne: {
       square: 'تهنئة-العيد1-مربع.png',
@@ -23,7 +21,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
   };
 
-  // Initial setup for various customization options
   let currentImageSrc = '';
   let name = 'اكتب اسمك';
   let fontSize;
@@ -34,16 +31,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
   let textPosition = { x: 0, y: 0 };
   let hasSelectedImage = false;
 
-  // Create a new Image object to load and display images
   const image = new Image();
 
-  // Default customization options
   const defaultCustomizationOptions = {
     imageShape: 'square',
     textColor: '#9A682C'
   };
 
-  // Function to load an image
   function loadImage(src) {
     image.onload = function () {
       updateCanvasSize();
@@ -53,12 +47,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     image.src = src;
   }
 
-  // Function to update the size of the canvas based on the image dimensions and device width
   function updateCanvasSize() {
     const devicePixelRatio = window.devicePixelRatio || 1;
     let maxWidth = window.innerWidth - 20;
 
-    // Set maxWidth to 400px for larger screens (laptops)
     if (window.innerWidth > 400) {
       maxWidth = 400;
     }
@@ -92,7 +84,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     setTextPosition();
   }
 
-  // Function to set the position of the text on the canvas
   function setTextPosition() {
     const relativeYPositionSquare = 0.82;
     const relativeYPositionRectangle = 0.75;
@@ -110,7 +101,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     console.log(`Text position set to: ${textPosition.x}, ${textPosition.y}`);
   }
 
-  // Function to update the text on the canvas
   function updateText() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (currentImageSrc) {
@@ -123,13 +113,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     ctx.fillText(name, textPosition.x, textPosition.y);
   }
 
-  // Event listener for the name input field
   document.getElementById('nameInput').addEventListener('input', function () {
     name = this.value;
     updateText();
   });
 
-  // Event listeners for the text color radio buttons
   document.querySelectorAll('input[name="textColor"]').forEach((radio) => {
     radio.addEventListener('change', function () {
       color = this.value;
@@ -139,7 +127,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
   });
 
-  // Event listeners for the image selection radio buttons
   document.querySelectorAll('input[name="selectedImage"]').forEach((radio) => {
     radio.addEventListener('change', function () {
       const [imageKey, size] = this.value.split('_');
@@ -154,7 +141,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
   });
 
-  // Event listeners for the image shape radio buttons
   document.querySelectorAll('input[name="imageShape"]').forEach((radio) => {
     radio.addEventListener('change', function () {
       const selectedImage = document.querySelector('input[name="selectedImage"]:checked')?.value.split('_')[0] || '';
@@ -164,7 +150,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
   });
 
-  // Function to update the radio selection and apply styles
   function updateRadioSelection() {
     document.querySelectorAll('.image-choice').forEach(label => {
       const radio = label.querySelector('input[type="radio"]');
@@ -184,7 +169,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
   }
 
-  // Function to apply grayscale filter to unselected images
   function updateGrayscale() {
     const selectedImage = document.querySelector('input[name="selectedImage"]:checked')?.value.split('_')[0] || '';
     const imageChoices = document.querySelectorAll('.image-choice img');
@@ -200,7 +184,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
   }
 
-  // Function to update the tick marks for the text color selection
   function updateTickMarks() {
     document.querySelectorAll('input[name="textColor"]').forEach((radio) => {
       const tickMark = radio.parentElement.querySelector('.tick-mark');
@@ -212,7 +195,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
   }
 
-  // Function to reset the customization options to default values
   function resetCustomizationOptions(resetColor = true) {
     document.querySelector(`input[name="imageShape"][value="${defaultCustomizationOptions.imageShape}"]`).checked = true;
 
@@ -225,7 +207,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     updateText();
   }
 
-  // Function to handle the download of the customized image
   function handleDownload() {
     let tempCanvas = document.createElement('canvas');
     let tempCtx = tempCanvas.getContext('2d');
@@ -239,7 +220,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
       let scaleX = tempCanvas.width / canvas.width;
       let scaleY = tempCanvas.height / canvas.height;
-      let adjustedFontSize = fontSize * ((scaleX + scaleY) / 2);
+      let adjustedFontSize = fontSize * scaleY;
 
       tempCtx.font = `${adjustedFontSize}px ${fontFamily}`;
       tempCtx.fillStyle = color;
@@ -269,7 +250,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     originalImage.src = currentImageSrc;
   }
 
-  // Function to show the download success modal
   function showDownloadSuccessModal() {
     const modal = document.getElementById('downloadSuccessModal');
     modal.style.display = "block";
@@ -285,11 +265,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     };
   }
 
-  // Event listener for the download button
   const downloadButton = document.getElementById('downloadBtn');
   downloadButton.addEventListener('click', handleDownload);
 
-  // Initial setup: ensure all images are in real color and no image is selected
   document.querySelectorAll('.image-choice input[type="radio"]').forEach(radio => {
     radio.checked = false;
   });
