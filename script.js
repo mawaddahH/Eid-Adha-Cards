@@ -97,39 +97,37 @@ document.addEventListener('DOMContentLoaded', (event) => {
     console.log(`Text position set to: ${textPosition.x}, ${textPosition.y}`);
   }
 
-  function updateText() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (currentImageSrc) {
-      drawImageToFitCanvas(); // Draw the image to fit the canvas
-    }
-    ctx.font = `${fontSize}px ${fontFamily}`;
-    ctx.fillStyle = color;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(name, textPosition.x, textPosition.y);
+function drawImageToFitCanvas() {
+  const canvasAspect = canvas.width / canvas.height;
+  const imageAspect = image.naturalWidth / image.naturalHeight;
+
+  let drawWidth, drawHeight, drawX, drawY;
+
+  if (canvasAspect > imageAspect) {
+    drawHeight = canvas.height; // Set the height to canvas height
+    drawWidth = drawHeight * imageAspect; // Scale the width proportionally
+    drawX = (canvas.width - drawWidth) / 2; // Center the image horizontally
+    drawY = 0; // No vertical offset needed
+  } else {
+    drawWidth = canvas.width; // Set the width to canvas width
+    drawHeight = drawWidth / imageAspect; // Scale the height proportionally
+    drawX = 0; // No horizontal offset needed
+    drawY = (canvas.height - drawHeight) / 2; // Center the image vertically
   }
 
-  // New function to draw the image to fit the canvas
-  function drawImageToFitCanvas() {
-    const canvasAspect = canvas.width / canvas.height;
-    const imageAspect = image.naturalWidth / image.naturalHeight;
+  ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas before drawing the image
+  ctx.drawImage(image, drawX, drawY, drawWidth, drawHeight); // Draw the image to fit the canvas
+}
 
-    let drawWidth, drawHeight, drawX, drawY;
+function updateText() {
+  drawImageToFitCanvas(); // Ensure the image fits the canvas
+  ctx.font = `${fontSize}px ${fontFamily}`;
+  ctx.fillStyle = color;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(name, textPosition.x, textPosition.y);
+}
 
-    if (canvasAspect > imageAspect) {
-      drawHeight = canvas.height;
-      drawWidth = drawHeight * imageAspect;
-      drawX = (canvas.width - drawWidth) / 2;
-      drawY = 0;
-    } else {
-      drawWidth = canvas.width;
-      drawHeight = drawWidth / imageAspect;
-      drawX = 0;
-      drawY = (canvas.height - drawHeight) / 2;
-    }
-
-    ctx.drawImage(image, drawX, drawY, drawWidth, drawHeight);
-  }
 
   document.getElementById('nameInput').addEventListener('input', function () {
     name = this.value;
