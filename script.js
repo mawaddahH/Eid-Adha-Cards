@@ -48,12 +48,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
   }
 
   function updateCanvasSize() {
+    const maxWidth = 400;  // Fixed max width for canvas
     const devicePixelRatio = window.devicePixelRatio || 1;
-    let maxWidth = window.innerWidth - 20;
-
-    if (window.innerWidth > 400) {
-      maxWidth = 400;
-    }
 
     let width, height;
 
@@ -88,14 +84,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const relativeYPositionSquare = 0.82;
     const relativeYPositionRectangle = 0.75;
 
-    textPosition.x = canvas.width / 2 / (window.devicePixelRatio || 1);
+    textPosition.x = canvas.width / 2;
 
     const selectedShape = document.querySelector('input[name="imageShape"]:checked')?.value || defaultCustomizationOptions.imageShape;
 
     if (selectedShape === 'square') {
-      textPosition.y = canvas.height * relativeYPositionSquare / (window.devicePixelRatio || 1);
+      textPosition.y = canvas.height * relativeYPositionSquare;
     } else if (selectedShape === 'rectangle') {
-      textPosition.y = canvas.height * relativeYPositionRectangle / (window.devicePixelRatio || 1);
+      textPosition.y = canvas.height * relativeYPositionRectangle;
     }
 
     console.log(`Text position set to: ${textPosition.x}, ${textPosition.y}`);
@@ -104,7 +100,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   function updateText() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (currentImageSrc) {
-      ctx.drawImage(image, 0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1));
+      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
     }
     ctx.font = `${fontSize}px ${fontFamily}`;
     ctx.fillStyle = color;
@@ -208,11 +204,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
   }
 
   function handleDownload() {
-    // Ensure the text position and font size are accurate before using them
-    const canvasFontSize = fontSize;
-    const canvasTextPositionX = textPosition.x;
-    const canvasTextPositionY = textPosition.y;
-
     let tempCanvas = document.createElement('canvas');
     let tempCtx = tempCanvas.getContext('2d');
 
@@ -223,13 +214,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
       tempCtx.drawImage(originalImage, 0, 0, tempCanvas.width, tempCanvas.height);
 
-      // Scale the font size and text position based on the scale of the original image to the canvas
+      // Calculate scaling ratios
       let scaleX = originalImage.naturalWidth / canvas.width;
       let scaleY = originalImage.naturalHeight / canvas.height;
 
-      let adjustedFontSize = canvasFontSize * scaleY;
-      let adjustedTextPositionX = canvasTextPositionX * scaleX;
-      let adjustedTextPositionY = canvasTextPositionY * scaleY;
+      let adjustedFontSize = fontSize * scaleY;
+      let adjustedTextPositionX = textPosition.x * scaleX;
+      let adjustedTextPositionY = textPosition.y * scaleY;
 
       tempCtx.font = `${adjustedFontSize}px ${fontFamily}`;
       tempCtx.fillStyle = color;
