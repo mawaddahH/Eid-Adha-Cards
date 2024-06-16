@@ -206,7 +206,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     updateRadioSelection();
     updateText();
   }
-
   function handleDownload() {
     let tempCanvas = document.createElement('canvas');
     let tempCtx = tempCanvas.getContext('2d');
@@ -218,18 +217,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
       tempCtx.drawImage(originalImage, 0, 0, tempCanvas.width, tempCanvas.height);
 
+      // Calculate the scaling factors
       let scaleX = tempCanvas.width / canvas.width;
       let scaleY = tempCanvas.height / canvas.height;
 
-      tempCtx.font = `${fontSize * scaleY}px ${fontFamily}`;
+      // Adjust the font size and text position
+      let adjustedFontSize = fontSize * scaleY;
+      let adjustedTextPositionX = textPosition.x * scaleX;
+      let adjustedTextPositionY = textPosition.y * scaleY;
+
+      tempCtx.font = `${adjustedFontSize}px ${fontFamily}`;
       tempCtx.fillStyle = color;
       tempCtx.textAlign = 'center';
       tempCtx.textBaseline = 'middle';
 
-      let scaledX = tempCanvas.width / 2;
-      let scaledY = textPosition.y * scaleY;
-
-      tempCtx.fillText(name, scaledX, scaledY);
+      tempCtx.fillText(name, adjustedTextPositionX, adjustedTextPositionY);
 
       let imageName;
       const [imageKey, size] = currentImageSrc.split('_');
@@ -248,6 +250,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     };
     originalImage.src = currentImageSrc;
   }
+
 
   function showDownloadSuccessModal() {
     const modal = document.getElementById('downloadSuccessModal');
