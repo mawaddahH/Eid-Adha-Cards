@@ -204,23 +204,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
   }
 
   function handleDownload() {
-    let tempCanvas = document.createElement('canvas');
-    let tempCtx = tempCanvas.getContext('2d');
+    const tempCanvas = document.createElement('canvas');
+    const tempCtx = tempCanvas.getContext('2d');
 
-    let originalImage = new Image();
+    const originalImage = new Image();
     originalImage.onload = function () {
       tempCanvas.width = originalImage.naturalWidth;
       tempCanvas.height = originalImage.naturalHeight;
 
       tempCtx.drawImage(originalImage, 0, 0, tempCanvas.width, tempCanvas.height);
 
-      // Calculate scaling ratios based on the canvas and the original image
-      let scaleX = originalImage.naturalWidth / canvas.width;
-      let scaleY = originalImage.naturalHeight / canvas.height;
+      // Calculate scaling ratios
+      const scaleX = originalImage.naturalWidth / canvas.width;
+      const scaleY = originalImage.naturalHeight / canvas.height;
 
-      let adjustedFontSize = fontSize * scaleY; // Scale the font size based on height
-      let adjustedTextPositionX = textPosition.x * scaleX; // Scale X position
-      let adjustedTextPositionY = textPosition.y * scaleY; // Scale Y position
+      const adjustedFontSize = fontSize * scaleY;
+      const adjustedTextPositionX = textPosition.x * scaleX;
+      const adjustedTextPositionY = textPosition.y * scaleY;
 
       tempCtx.font = `${adjustedFontSize}px ${fontFamily}`;
       tempCtx.fillStyle = color;
@@ -229,15 +229,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
       tempCtx.fillText(name, adjustedTextPositionX, adjustedTextPositionY);
 
-      let imageName;
       const [imageKey, size] = currentImageSrc.split('_');
-      if (size === 'square') {
-        imageName = `EidCardByMWDH-${imageKey}-Square.png`;
-      } else {
-        imageName = `EidCardByMWDH-${imageKey}-Rectangle.png`;
-      }
+      const imageName = size === 'square'
+        ? `EidCardByMWDH-${imageKey}-Square.png`
+        : `EidCardByMWDH-${imageKey}-Rectangle.png`;
 
-      let link = document.createElement('a');
+      const link = document.createElement('a');
       link.href = tempCanvas.toDataURL('image/png');
       link.download = imageName;
       link.click();
