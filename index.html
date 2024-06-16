@@ -12,7 +12,8 @@
   <!-- Header with Company Logo -->
   <header class="header-container">
     <div class="logo-container">
-      <img src="MaweizaLogo.png" alt="Company Logo"> <!-- Replace 'MaweizaLogo.png' with the path to your logo image -->
+      <!-- Replace 'MaweizaLogo.png' with the path to your logo image -->
+      <img src="MaweizaLogo.png" alt="Company Logo">
     </div>
   </header>
 
@@ -21,14 +22,16 @@
     <span>بطاقة معايدة عيد الأضحى</span>
   </div>
 
-  <!-- Greeting Card Title Container -->
+  <!-- Image Selection Title -->
   <div class="choose-image" style="font-size: 20px;">
     <span>اختر صورة</span>
   </div>
+
   <!-- Image Selection Section -->
   <!-- Users can select one of the four images to customize -->
   <div id="imageSelection" class="image-grid-container">
     <div class="image-grid">
+      <!-- Each label represents an image choice with a radio button for selection -->
       <label for="image1" class="image-choice">
         <input type="radio" id="image1" name="selectedImage" value="imageOne_square">
         <img src="تهنئة-العيد1-مربع.png" alt="Image 1">
@@ -62,6 +65,7 @@
     <!-- Image Shape Picker Section -->
     <div id="customizationTable">
       <div class="table-row">
+        <!-- Image Shape Options -->
         <div class="table-cell">
           <label for="shapeSquare" class="shape-choice">
             <input type="radio" id="shapeSquare" name="imageShape" value="square">
@@ -74,21 +78,23 @@
             مستطيل
           </label>
         </div>
-        <span style="font-size: 20px;" class="table-cell" style="text-align: right;">المقاس</span>
+        <span class="table-cell" style="font-size: 20px; text-align: right;">المقاس</span>
       </div>
 
-      <!-- Text and Color Controls Section -->
+      <!-- Text Input Section -->
       <div class="table-row">
         <div class="table-cell">
           <div class="input-group">
             <input type="text" id="nameInput" class="effect-13" placeholder="اكتب الاسم">
           </div>
         </div>
-        <span style="font-size: 20px;" class="table-cell" style="text-align: right;">النــــص</span>
+        <span class="table-cell" style="font-size: 20px; text-align: right;">النــــص</span>
       </div>
 
+      <!-- Text Color Picker Section -->
       <div class="table-row">
         <div class="table-cell">
+          <!-- Each label represents a color choice with a radio button for selection -->
           <label for="color1" class="color-choice" style="background-color: #9A682C;">
             <input type="radio" id="color1" name="textColor" value="#9A682C" checked>
             <span class="tick-mark">✓</span>
@@ -106,14 +112,13 @@
             <span class="tick-mark">✓</span>
           </label>
         </div>
-        <span style="font-size: 20px;" class="table-cell" style="text-align: right;">لــون الـنص</span>
+        <span class="table-cell" style="font-size: 20px; text-align: right;">لــون الـنص</span>
       </div>
     </div>
+
     <!-- Download Button -->
     <button id="downloadBtn">تنزيل الصورة</button>
   </div>
-
-
 
   <!-- Modal Popup for Download Success -->
   <div id="downloadSuccessModal" class="modal">
@@ -124,6 +129,7 @@
     </div>
   </div>
 
+  <!-- Link to the JavaScript file -->
   <script src="script.js"></script>
 </body>
 </html>
