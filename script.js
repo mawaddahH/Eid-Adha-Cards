@@ -208,6 +208,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
   }
 
   function handleDownload() {
+    // Ensure the text position and font size are accurate before using them
+    const canvasFontSize = fontSize;
+    const canvasTextPositionX = textPosition.x;
+    const canvasTextPositionY = textPosition.y;
+
     let tempCanvas = document.createElement('canvas');
     let tempCtx = tempCanvas.getContext('2d');
 
@@ -223,9 +228,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
       let scaleY = originalImage.naturalHeight / canvas.height;
 
       // Calculate the adjusted font size and position
-      let adjustedFontSize = fontSize * scaleY;
-      let adjustedTextPositionX = textPosition.x * scaleX;
-      let adjustedTextPositionY = textPosition.y * scaleY;
+      let adjustedFontSize = canvasFontSize * scaleY;
+      let adjustedTextPositionX = canvasTextPositionX * scaleX;
+      let adjustedTextPositionY = canvasTextPositionY * scaleY;
 
       tempCtx.font = `${adjustedFontSize}px ${fontFamily}`;
       tempCtx.fillStyle = color;
