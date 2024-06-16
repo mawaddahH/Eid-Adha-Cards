@@ -226,10 +226,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
       // Calculate the scaling factor
       let scaleY = originalImage.naturalHeight / canvas.height;
+      let scaleX = originalImage.naturalWidth / canvas.width;
+
 
       // Adjust the font size based on the scale factor
-      let adjustedFontSize = fontSize * scaleY;
-      let adjustedTextPositionX = textPosition.x * scaleY;
+      if (size === 'square') {
+        let adjustedFontSize = fontSize * scaleY;
+      } else {
+        let adjustedFontSize = fontSize * ((scaleX + scaleY) / 2);
+      }
+      let adjustedTextPositionX = textPosition.x * scaleX;
       let adjustedTextPositionY = textPosition.y * scaleY;
 
       tempCtx.font = `${adjustedFontSize}px ${fontFamily}`;
