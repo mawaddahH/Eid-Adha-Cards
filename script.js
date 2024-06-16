@@ -210,51 +210,50 @@ document.addEventListener('DOMContentLoaded', (event) => {
     updateText();
   }
 
-function handleDownload() {
-  let tempCanvas = document.createElement('canvas');
-  let tempCtx = tempCanvas.getContext('2d');
+  // Function to handle the download of the customized image
+  function handleDownload() {
+    let tempCanvas = document.createElement('canvas');
+    let tempCtx = tempCanvas.getContext('2d');
 
-  let originalImage = new Image();
-  originalImage.onload = function () {
-    tempCanvas.width = originalImage.naturalWidth;
-    tempCanvas.height = originalImage.naturalHeight;
+    let originalImage = new Image();
+    originalImage.onload = function () {
+      tempCanvas.width = originalImage.naturalWidth;
+      tempCanvas.height = originalImage.naturalHeight;
 
-    tempCtx.drawImage(originalImage, 0, 0, tempCanvas.width, tempCanvas.height);
+      tempCtx.drawImage(originalImage, 0, 0, tempCanvas.width, tempCanvas.height);
 
-    // Scale the font size and text position based on the scale of the original image to the canvas
-    let scaleX = originalImage.naturalWidth / canvas.width;
-    let scaleY = originalImage.naturalHeight / canvas.height;
+      // Scale the font size and text position based on the scale of the original image to the canvas
+      let scaleX = originalImage.naturalWidth / canvas.width;
+      let scaleY = originalImage.naturalHeight / canvas.height;
 
-    // Increase the font size for the downloaded image
-    let adjustedFontSize = fontSize * ((scaleX + scaleY) / 2);
-    let adjustedTextPositionX = textPosition.x * scaleX;
-    let adjustedTextPositionY = textPosition.y * scaleY;
+      let adjustedFontSize = fontSize * ((scaleX + scaleY) / 2);
+      let adjustedTextPositionX = textPosition.x * scaleX;
+      let adjustedTextPositionY = textPosition.y * scaleY;
 
-    tempCtx.font = `${adjustedFontSize}px ${fontFamily}`;
-    tempCtx.fillStyle = color;
-    tempCtx.textAlign = 'center';
-    tempCtx.textBaseline = 'middle';
+      tempCtx.font = `${adjustedFontSize}px ${fontFamily}`;
+      tempCtx.fillStyle = color;
+      tempCtx.textAlign = 'center';
+      tempCtx.textBaseline = 'middle';
 
-    tempCtx.fillText(name, adjustedTextPositionX, adjustedTextPositionY);
+      tempCtx.fillText(name, adjustedTextPositionX, adjustedTextPositionY);
 
-    let imageName;
-    const [imageKey, size] = currentImageSrc.split('_');
-    if (size === 'square') {
-      imageName = `EidCardByMWDH-${imageKey}-Square.png`;
-    } else {
-      imageName = `EidCardByMWDH-${imageKey}-Rectangle.png`;
-    }
+      let imageName;
+      const [imageKey, size] = currentImageSrc.split('_');
+      if (size === 'square') {
+        imageName = `EidCardByMWDH-${imageKey}-Square.png`;
+      } else {
+        imageName = `EidCardByMWDH-${imageKey}-Rectangle.png`;
+      }
 
-    let link = document.createElement('a');
-    link.href = tempCanvas.toDataURL('image/png');
-    link.download = imageName;
-    link.click();
+      let link = document.createElement('a');
+      link.href = tempCanvas.toDataURL('image/png');
+      link.download = imageName;
+      link.click();
 
-    showDownloadSuccessModal();
-  };
-  originalImage.src = currentImageSrc;
-}
-
+      showDownloadSuccessModal();
+    };
+    originalImage.src = currentImageSrc;
+  }
 
   // Function to show the download success modal
   function showDownloadSuccessModal() {
