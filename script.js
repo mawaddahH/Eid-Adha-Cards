@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
   let currentImageSrc = '';
   let name = 'اكتب اسمك';
   let fontSize;
-  const squareFontSize = 30;
-  const rectangleFontSize = 20;
+  const squareFontSize = 15;
+  const rectangleFontSize = 10;
   const fontFamily = 'EidFont';
   let color = document.querySelector('input[name="textColor"]:checked').value;
   let textPosition = { x: 0, y: 0 };
@@ -38,48 +38,49 @@ document.addEventListener('DOMContentLoaded', (event) => {
     textColor: '#9A682C'
   };
 
+  // Set canvas dimensions to a constant 350x350 pixels
+  function setCanvasSize() {
+    const size = 350;
+    canvas.width = size;
+    canvas.height = size;
+    canvas.style.width = `${size}px`;
+    canvas.style.height = `${size}px`;
+  }
+
+  // Function to load an image and draw it to fit within the canvas
   function loadImage(src) {
     image.onload = function () {
-      updateCanvasSize();
+      drawImageToFitCanvas();
       setTextPosition();
       updateText();
     };
     image.src = src;
   }
 
-  function updateCanvasSize() {
-    const devicePixelRatio = window.devicePixelRatio || 1;
-    let maxWidth = 300; // Fixed smaller width for canvas display
+  // Draw the image to fit within the canvas dimensions
+  function drawImageToFitCanvas() {
+    const canvasAspect = canvas.width / canvas.height;
+    const imageAspect = image.naturalWidth / image.naturalHeight;
 
-    let width, height;
+    let drawWidth, drawHeight, drawX, drawY;
 
-    if (image.naturalWidth > image.naturalHeight) {
-      width = maxWidth;
-      height = (image.naturalHeight / image.naturalWidth) * maxWidth;
+    if (imageAspect > canvasAspect) {
+      drawWidth = canvas.width;
+      drawHeight = canvas.width / imageAspect;
+      drawX = 0;
+      drawY = (canvas.height - drawHeight) / 2;
     } else {
-      height = maxWidth;
-      width = (image.naturalWidth / image.naturalHeight) * maxWidth;
+      drawHeight = canvas.height;
+      drawWidth = canvas.height * imageAspect;
+      drawX = (canvas.width - drawWidth) / 2;
+      drawY = 0;
     }
 
-    canvas.width = width * devicePixelRatio;
-    canvas.height = height * devicePixelRatio;
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
-    ctx.scale(devicePixelRatio, devicePixelRatio);
-
-    const selectedShape = document.querySelector('input[name="imageShape"]:checked')?.value || defaultCustomizationOptions.imageShape;
-
-    if (selectedShape === 'square') {
-      fontSize = squareFontSize;
-    } else if (selectedShape === 'rectangle') {
-      fontSize = rectangleFontSize;
-    } else {
-      fontSize = (width > height ? height : width) / 10;
-    }
-
-    setTextPosition();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(image, drawX, drawY, drawWidth, drawHeight);
   }
 
+  // Set the position of the text on the canvas
   function setTextPosition() {
     const relativeYPositionSquare = 0.82;
     const relativeYPositionRectangle = 0.75;
@@ -97,43 +98,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
     console.log(`Text position set to: ${textPosition.x}, ${textPosition.y}`);
   }
 
-function drawImageToFitCanvas() {
-  const canvasAspect = canvas.width / canvas.height;
-  const imageAspect = image.naturalWidth / image.naturalHeight;
-
-  let drawWidth, drawHeight, drawX, drawY;
-
-  if (canvasAspect > imageAspect) {
-    drawHeight = canvas.height; // Set the height to canvas height
-    drawWidth = drawHeight * imageAspect; // Scale the width proportionally
-    drawX = (canvas.width - drawWidth) / 2; // Center the image horizontally
-    drawY = 0; // No vertical offset needed
-  } else {
-    drawWidth = canvas.width; // Set the width to canvas width
-    drawHeight = drawWidth / imageAspect; // Scale the height proportionally
-    drawX = 0; // No horizontal offset needed
-    drawY = (canvas.height - drawHeight) / 2; // Center the image vertically
+  // Update the text on the canvas
+  function updateText() {
+    drawImageToFitCanvas();
+    ctx.font = `${fontSize}px ${fontFamily}`;
+    ctx.fillStyle = color;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(name, textPosition.x, textPosition.y);
   }
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas before drawing the image
-  ctx.drawImage(image, drawX, drawY, drawWidth, drawHeight); // Draw the image to fit the canvas
-}
-
-function updateText() {
-  drawImageToFitCanvas(); // Ensure the image fits the canvas
-  ctx.font = `${fontSize}px ${fontFamily}`;
-  ctx.fillStyle = color;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(name, textPosition.x, textPosition.y);
-}
-
-
+  // Event listener for the name input field
   document.getElementById('nameInput').addEventListener('input', function () {
     name = this.value;
     updateText();
   });
 
+  // Event listeners for the text color radio buttons
   document.querySelectorAll('input[name="textColor"]').forEach((radio) => {
     radio.addEventListener('change', function () {
       color = this.value;
@@ -143,6 +124,7 @@ function updateText() {
     });
   });
 
+  // Event listeners for the image selection radio buttons
   document.querySelectorAll('input[name="selectedImage"]').forEach((radio) => {
     radio.addEventListener('change', function () {
       const [imageKey, size] = this.value.split('_');
@@ -157,6 +139,7 @@ function updateText() {
     });
   });
 
+  // Event listeners for the image shape radio buttons
   document.querySelectorAll('input[name="imageShape"]').forEach((radio) => {
     radio.addEventListener('change', function () {
       const selectedImage = document.querySelector('input[name="selectedImage"]:checked')?.value.split('_')[0] || '';
@@ -166,6 +149,7 @@ function updateText() {
     });
   });
 
+  // Function to update the radio selection and apply styles
   function updateRadioSelection() {
     document.querySelectorAll('.image-choice').forEach(label => {
       const radio = label.querySelector('input[type="radio"]');
@@ -185,6 +169,7 @@ function updateText() {
     }
   }
 
+  // Function to apply grayscale filter to unselected images
   function updateGrayscale() {
     const selectedImage = document.querySelector('input[name="selectedImage"]:checked')?.value.split('_')[0] || '';
     const imageChoices = document.querySelectorAll('.image-choice img');
@@ -200,6 +185,7 @@ function updateText() {
     }
   }
 
+  // Function to update the tick marks for the text color selection
   function updateTickMarks() {
     document.querySelectorAll('input[name="textColor"]').forEach((radio) => {
       const tickMark = radio.parentElement.querySelector('.tick-mark');
@@ -211,6 +197,7 @@ function updateText() {
     });
   }
 
+  // Function to reset the customization options to default values
   function resetCustomizationOptions(resetColor = true) {
     document.querySelector(`input[name="imageShape"][value="${defaultCustomizationOptions.imageShape}"]`).checked = true;
 
@@ -223,23 +210,25 @@ function updateText() {
     updateText();
   }
 
+  // Function to handle the download of the customized image
   function handleDownload() {
-    const tempCanvas = document.createElement('canvas');
-    const tempCtx = tempCanvas.getContext('2d');
+    let tempCanvas = document.createElement('canvas');
+    let tempCtx = tempCanvas.getContext('2d');
 
-    const originalImage = new Image();
+    let originalImage = new Image();
     originalImage.onload = function () {
       tempCanvas.width = originalImage.naturalWidth;
       tempCanvas.height = originalImage.naturalHeight;
 
       tempCtx.drawImage(originalImage, 0, 0, tempCanvas.width, tempCanvas.height);
 
-      const scaleX = originalImage.naturalWidth / canvas.width;
-      const scaleY = originalImage.naturalHeight / canvas.height;
+      // Scale the font size and text position based on the scale of the original image to the canvas
+      let scaleX = originalImage.naturalWidth / canvas.width;
+      let scaleY = originalImage.naturalHeight / canvas.height;
 
-      const adjustedFontSize = fontSize * Math.min(scaleX, scaleY);
-      const adjustedTextPositionX = textPosition.x * scaleX;
-      const adjustedTextPositionY = textPosition.y * scaleY;
+      let adjustedFontSize = fontSize * scaleY;
+      let adjustedTextPositionX = textPosition.x * scaleX;
+      let adjustedTextPositionY = textPosition.y * scaleY;
 
       tempCtx.font = `${adjustedFontSize}px ${fontFamily}`;
       tempCtx.fillStyle = color;
@@ -248,10 +237,15 @@ function updateText() {
 
       tempCtx.fillText(name, adjustedTextPositionX, adjustedTextPositionY);
 
+      let imageName;
       const [imageKey, size] = currentImageSrc.split('_');
-      const imageName = size === 'square' ? `EidCardByMWDH-${imageKey}-Square.png` : `EidCardByMWDH-${imageKey}-Rectangle.png`;
+      if (size === 'square') {
+        imageName = `EidCardByMWDH-${imageKey}-Square.png`;
+      } else {
+        imageName = `EidCardByMWDH-${imageKey}-Rectangle.png`;
+      }
 
-      const link = document.createElement('a');
+      let link = document.createElement('a');
       link.href = tempCanvas.toDataURL('image/png');
       link.download = imageName;
       link.click();
@@ -261,17 +255,18 @@ function updateText() {
     originalImage.src = currentImageSrc;
   }
 
+  // Function to show the download success modal
   function showDownloadSuccessModal() {
     const modal = document.getElementById('downloadSuccessModal');
-    modal.style.display = 'block';
+    modal.style.display = "block";
 
     document.querySelector('.close-button').onclick = function () {
-      modal.style.display = 'none';
+      modal.style.display = "none";
     };
 
     window.onclick = function (event) {
       if (event.target === modal) {
-        modal.style.display = 'none';
+        modal.style.display = "none";
       }
     };
   }
@@ -286,4 +281,7 @@ function updateText() {
     image.style.filter = 'none';
   });
   document.getElementById('customizationOptions').style.display = 'none';
+
+  // Set the canvas size on page load
+  setCanvasSize();
 });
