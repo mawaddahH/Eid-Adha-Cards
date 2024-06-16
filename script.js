@@ -220,15 +220,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
       let scaleX = tempCanvas.width / canvas.width;
       let scaleY = tempCanvas.height / canvas.height;
-      let adjustedFontSize = fontSize * scaleY;
 
-      tempCtx.font = `${adjustedFontSize}px ${fontFamily}`;
+      tempCtx.font = `${fontSize * scaleY}px ${fontFamily}`;
       tempCtx.fillStyle = color;
       tempCtx.textAlign = 'center';
       tempCtx.textBaseline = 'middle';
 
       let scaledX = tempCanvas.width / 2;
-      let scaledY = textPosition.y * scaleY;
+      let scaledY = (textPosition.y * tempCanvas.height) / canvas.height;
 
       tempCtx.fillText(name, scaledX, scaledY);
 
