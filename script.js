@@ -223,8 +223,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
       let scaleX = tempCanvas.width / canvas.width;
       let scaleY = tempCanvas.height / canvas.height;
 
+      // Calculate average scale factor for uniform scaling
+      let scale = (scaleX + scaleY) / 2;
+
       // Adjust the font size and text position based on the scaling factors
-      let adjustedFontSize = fontSize * scaleY;
+      let adjustedFontSize = fontSize * scale;
       let adjustedTextPositionX = textPosition.x * scaleX;
       let adjustedTextPositionY = textPosition.y * scaleY;
 
