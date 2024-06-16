@@ -3,13 +3,12 @@
 
 @font-face {
   font-family: 'EidFont'; /* Assigns a name to the custom font for reference */
-  font-family: 'Lateef', serif;
   src: url('خط غريتا (عادي).ttf') format('truetype'); /* Specifies the font file and format */
   font-weight: normal; /* Default font weight */
   font-style: normal; /* Default font style */
 }
 
-
+/* General body styles */
 body {
   display: flex;
   flex-direction: column; /* Stacks child elements vertically */
@@ -17,14 +16,36 @@ body {
   padding-top: 20px; /* Adds spacing at the top of the page */
   text-align: center; /* Centers inline or inline-block children */
   margin: auto;
-  overflow: auto;
+  overflow: auto; /* Allows for scrolling if content overflows */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  font-family: 'Lateef', serif; /* Sets the custom font for the body */
 }
 
+/* Styles for the header */
+.header-container {
+  width: 100%;
+  height: 70px;
+  background-color: #FFF3F3; /* Light background color */
+  position: fixed; /* Fixes the header at the top */
+  top: 0;
+  left: 10;
+  z-index: 1000; /* Ensures header stays on top */
+  display: flex;
+  justify-content: flex-end; /* Aligns the logo to the right */
+  padding: 10px 20px; /* Adds some padding for spacing */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
+}
 
-/* Styles for image grid */
+.logo-container img {
+  width: 200px; /* Adjust the width as needed */
+  height: auto;
+}
+
+/* Styles for image grid container */
 .image-grid-container {
   width: 100%; /* Full width of the viewport */
   overflow-x: auto; /* Enable horizontal scrolling if necessary */
+  overflow-y: hidden; /* Disable vertical scrolling */
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   padding-bottom: 5px; /* Ensure space for scrollbar */
   scrollbar-width: none; /* Hides scrollbar for Firefox */
@@ -34,14 +55,17 @@ body {
   align-items: flex-start; /* Align items to the start vertically */
   margin-top: -10px; /* Adjust margin as needed */
   margin-bottom: -10px; /* Adjust margin as needed */
+  white-space: nowrap; /* Prevents images from wrapping to the next line */
 }
 
+/* Styles for the image grid */
 .image-grid {
-  display: flex;
+  display: inline-flex;
   padding: 10px;
   width: calc(100% + 20px); /* Adjust as needed */
-  margin-left: -1px; /* Adjust for padding */
+  margin-left: 100px; /* Adjust for padding */
   justify-content: center;
+  align-items: center;
 }
 
 /* Styles for individual images in the grid */
@@ -54,6 +78,7 @@ body {
   border-radius: 5px;
   overflow: hidden;
   flex: 0 0 auto;
+  display: inline-block;
 }
 
 .image-choice img {
@@ -86,16 +111,17 @@ body {
   align-items: flex-start; /* Aligns child elements to the start of the cross axis */
   width: 100%; /* Makes the element width equal to 100% of its parent's width */
 }
-/* font-family: 'Lateef', serif; */
 
+/* Styles for the image container */
 .image-container {
   margin-bottom: 20px; /* Adds margin below the image container */
   color: #03202F; /* Set the text color to black */
   font-size: 20px; /* Make the text size smaller */
-  font-family: 'Lateef', serif;
+  font-family: 'Lateef', serif; /* Apply the custom font */
   animation: reveal 3000ms ease-in-out forwards 200ms, glow 2500ms linear infinite 2000ms;
 }
 
+/* Keyframe animation for text reveal */
 @keyframes reveal {
   80% {
     letter-spacing: 8px;
@@ -105,13 +131,14 @@ body {
   }
 }
 
+/* Keyframe animation for text glow */
 @keyframes glow {
   40% {
     text-shadow: 0 0 8px #F3EEED;
   }
 }
 
-
+/* Styles for the controls */
 .image-container, .controls {
   display: flex;
   flex-direction: column; /* Stacks children vertically */
@@ -125,6 +152,7 @@ body {
   margin-top: 10px; /* Adjusted margin to 10px from 20px */
 }
 
+/* Styles for the canvas */
 #imageCanvas {
   border: 1px solid #ccc; /* Adds a light grey border around the canvas */
 }
@@ -164,11 +192,11 @@ button {
   text-align: center; /* Centers the button text */
   transition: all 200ms; /* Smooth transition for background and shadow changes */
   width: 320px; /* Sets a fixed width for the buttons */
-  font-family: 'Lateef', serif;
+  font-family: 'Lateef', serif; /* Apply the custom font */
 }
 
 button:hover {
-  background-color: #45a049; /* Changes background to a green color on hover */
+  background-color: #B36C67; /* Changes background to a green color on hover */
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px; /* Adds a shadow for depth */
 }
 
@@ -186,7 +214,7 @@ button:hover {
   gap: 2px; /* Adds spacing between items */
   text-align: center; /* Centers text within these containers */
   margin-bottom: 20px; /* Adds space below these containers */
-  margin: 1px;
+  margin: 1px; /* Adds minimal margin */
 }
 
 #imagePicker label, #colorPicker label {
@@ -201,13 +229,13 @@ button:hover {
 .color-choice {
   align-items: center; /* Centers content vertically */
   justify-content: center; /* Centers content horizontally */
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    margin: 0 5px;
-    border-radius: 50%;
-    position: relative;
-    cursor: pointer;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin: 0 5px;
+  border-radius: 50%; /* Rounds the corners of the color choice */
+  position: relative; /* Allows positioning of child elements */
+  cursor: pointer; /* Pointer cursor on hover */
 }
 
 #colorPicker input[type="radio"] {
@@ -267,15 +295,19 @@ button:hover {
 
 /* Styles for shape choice */
 .shape-choice {
-  display: inline-block;
-  padding: 10px 20px;
-  margin: 5px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #fff;
-  text-align: center;
-  position: relative;
+  display: inline-block; /* Ensures elements are block-level but inline for proper layout */
+  align-items: center;
+  margin-right: 10px;
+  padding: 5px 10px; /* Adjust padding as needed */
+  margin: 5px; /* Adjust margin as needed */
+  border: 1px solid #ddd; /* Border style */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  background-color: #fff; /* Background color */
+  text-align: center; /* Center text */
+  position: relative; /* Positioning */
+  min-width: 80px; /* Minimum width to ensure consistency */
+  height: auto; /* Set height to auto */
 }
 
 .shape-choice input[type="radio"] {
@@ -338,7 +370,6 @@ button:hover {
   background-color: #e2e6ea; /* Light background color on hover for better UX */
 }
 
-
 /* Ensure spans are aligned to the right */
 #imagePicker span,
 .controls span {
@@ -371,85 +402,36 @@ button:hover {
   height: auto; /* Set height to auto */
 }
 
-/* Prevent body from scrolling horizontally when image-grid is scrolled */
-body {
-  overflow-x: hidden;
-  font-family: 'Lateef', serif;
-}
-
 /* Adjust spacing between shape and color choices */
 .shape-choice, .color-choice {
   margin: 0 5px; /* Adjust spacing between choices */
 }
 
-
-
+/* Ensures that the radio button for color choice is invisible and styled as a pointer on hover */
 .color-choice input[type="radio"] {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
+  position: absolute; /* Positions the radio button within its parent container */
+  opacity: 0; /* Makes the radio button invisible */
+  cursor: pointer; /* Changes cursor to pointer to indicate clickable area */
 }
 
+/* Tick mark styling within the color choice container */
 .color-choice .tick-mark {
-  display: none;
-  color: white;
-  font-weight: bold;
-  font-size: 25px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  display: none; /* Initially hides the tick mark */
+  color: white; /* White color for the tick mark */
+  font-weight: bold; /* Bold font weight for visibility */
+  font-size: 25px; /* Large size for the tick mark */
+  position: absolute; /* Positions the tick mark within the container */
+  top: 50%; /* Vertically centers the tick mark */
+  left: 50%; /* Horizontally centers the tick mark */
+  transform: translate(-50%, -50%); /* Adjusts the tick mark to be exactly at the center */
 }
 
+/* Displays the tick mark when the corresponding radio button is checked */
 .color-choice input[type="radio"]:checked + .tick-mark {
-  display: block;
+  display: block; /* Shows the tick mark */
 }
 
-.shape-choice {
-  display: inline-block; /* Ensures elements are block-level but inline for proper layout */
-  align-items: center;
-  margin-right: 10px;
-  padding: 5px 10px; /* Adjust padding as needed */
-  margin: 5px; /* Adjust margin as needed */
-  border: 1px solid #ddd; /* Border style */
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
-  background-color: #fff; /* Background color */
-  text-align: center; /* Center text */
-  position: relative; /* Positioning */
-  min-width: 80px; /* Minimum width to ensure consistency */
-  height: auto; /* Set height to auto */
-}
-
-.tick-mark {
-  display: none;
-}
-
-input[type="radio"]:checked + .tick-mark {
-  display: inline-block;
-}
-
+/* Adds a green border to the image when its corresponding radio button is checked */
 .image-choice input[type="radio"]:checked + img {
-  border: 2px solid #4CAF50; /* Green border style */
-}
-
-
-
-.header-container {
-  width: 100%;
-  height: 70px;
-  background-color: #FFF3F3;
-  position: fixed;
-  top: 0;
-  left: 10;
-  z-index: 1000; /* Ensures header stays on top */
-  display: flex;
-  justify-content: flex-end; /* Aligns the logo to the right */
-  padding: 10px 20px; /* Adds some padding for spacing */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
-}
-
-.logo-container img {
-  width: 200px; /* Adjust the width as needed */
-  height: auto;
+  border: 2px solid #4CAF50; /* Green border style to indicate selection */
 }
