@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
   let currentImageSrc = '';
   let name = 'اكتب اسمك';
   let fontSize;
-  const squareFontSize = 15;
-  const rectangleFontSize = 10;
+  const squareFontSize = 30;  // Increased font size for better visibility
+  const rectangleFontSize = 20; // Increased font size for better visibility
   const fontFamily = 'EidFont';
   let color = document.querySelector('input[name="textColor"]:checked').value;
   let textPosition = { x: 0, y: 0 };
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   }
 
   function updateCanvasSize() {
-    const maxWidth = 400;  // Fixed max width for canvas
+    const maxWidth = 300;  // Fixed smaller width for canvas display
     const devicePixelRatio = window.devicePixelRatio || 1;
 
     let width, height;
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     } else if (selectedShape === 'rectangle') {
       fontSize = rectangleFontSize;
     } else {
-      fontSize = (width > height ? height : width) / 14;
+      fontSize = (width > height ? height : width) / 10;
     }
 
     setTextPosition();
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       const scaleX = originalImage.naturalWidth / canvas.width;
       const scaleY = originalImage.naturalHeight / canvas.height;
 
-      const adjustedFontSize = fontSize * scaleY;
+      const adjustedFontSize = fontSize * Math.min(scaleX, scaleY);  // Adjust font size appropriately
       const adjustedTextPositionX = textPosition.x * scaleX;
       const adjustedTextPositionY = textPosition.y * scaleY;
 
