@@ -218,6 +218,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
       tempCtx.drawImage(originalImage, 0, 0, tempCanvas.width, tempCanvas.height);
 
+      let scaleX = tempCanvas.width / canvas.width;
       let scaleY = tempCanvas.height / canvas.height;
 
       tempCtx.font = `${fontSize * scaleY}px ${fontFamily}`;
