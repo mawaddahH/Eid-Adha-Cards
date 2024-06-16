@@ -100,13 +100,34 @@ document.addEventListener('DOMContentLoaded', (event) => {
   function updateText() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (currentImageSrc) {
-      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+      drawImageToFitCanvas();
     }
     ctx.font = `${fontSize}px ${fontFamily}`;
     ctx.fillStyle = color;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(name, textPosition.x, textPosition.y);
+  }
+
+  function drawImageToFitCanvas() {
+    const canvasAspect = canvas.width / canvas.height;
+    const imageAspect = image.naturalWidth / image.naturalHeight;
+
+    let drawWidth, drawHeight, drawX, drawY;
+
+    if (canvasAspect > imageAspect) {
+      drawHeight = canvas.height;
+      drawWidth = drawHeight * imageAspect;
+      drawX = (canvas.width - drawWidth) / 2;
+      drawY = 0;
+    } else {
+      drawWidth = canvas.width;
+      drawHeight = drawWidth / imageAspect;
+      drawX = 0;
+      drawY = (canvas.height - drawHeight) / 2;
+    }
+
+    ctx.drawImage(image, drawX, drawY, drawWidth, drawHeight);
   }
 
   document.getElementById('nameInput').addEventListener('input', function () {
@@ -214,11 +235,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
       tempCtx.drawImage(originalImage, 0, 0, tempCanvas.width, tempCanvas.height);
 
-      // Calculate scaling ratios
       const scaleX = originalImage.naturalWidth / canvas.width;
       const scaleY = originalImage.naturalHeight / canvas.height;
 
-      const adjustedFontSize = fontSize * Math.min(scaleX, scaleY);  // Adjust font size appropriately
+      const adjustedFontSize = fontSize * Math.min(scaleX, scaleY);
       const adjustedTextPositionX = textPosition.x * scaleX;
       const adjustedTextPositionY = textPosition.y * scaleY;
 
@@ -230,9 +250,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       tempCtx.fillText(name, adjustedTextPositionX, adjustedTextPositionY);
 
       const [imageKey, size] = currentImageSrc.split('_');
-      const imageName = size === 'square'
-        ? `EidCardByMWDH-${imageKey}-Square.png`
-        : `EidCardByMWDH-${imageKey}-Rectangle.png`;
+      const imageName = size === 'square' ? `EidCardByMWDH-${imageKey}-Square.png` : `EidCardByMWDH-${imageKey}-Rectangle.png`;
 
       const link = document.createElement('a');
       link.href = tempCanvas.toDataURL('image/png');
@@ -246,15 +264,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   function showDownloadSuccessModal() {
     const modal = document.getElementById('downloadSuccessModal');
-    modal.style.display = "block";
+    modal.style.display = 'block';
 
     document.querySelector('.close-button').onclick = function () {
-      modal.style.display = "none";
+      modal.style.display = 'none';
     };
 
     window.onclick = function (event) {
       if (event.target === modal) {
-        modal.style.display = "none";
+        modal.style.display = 'none';
       }
     };
   }
