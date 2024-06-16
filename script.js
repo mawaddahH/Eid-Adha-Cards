@@ -218,10 +218,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
       tempCtx.drawImage(originalImage, 0, 0, tempCanvas.width, tempCanvas.height);
 
-      // Scale the font size and text position based on the scale of the original image to the canvas
+      // Calculate the scaling factor between the original image and the canvas
       let scaleX = originalImage.naturalWidth / canvas.width;
       let scaleY = originalImage.naturalHeight / canvas.height;
 
+      // Calculate the adjusted font size and position
       let adjustedFontSize = fontSize * scaleY;
       let adjustedTextPositionX = textPosition.x * scaleX;
       let adjustedTextPositionY = textPosition.y * scaleY;
