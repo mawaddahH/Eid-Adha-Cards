@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   function updateText() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (currentImageSrc) {
-      drawImageToFitCanvas();
+      drawImageToFitCanvas(); // Draw the image to fit the canvas
     }
     ctx.font = `${fontSize}px ${fontFamily}`;
     ctx.fillStyle = color;
@@ -109,6 +109,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     ctx.fillText(name, textPosition.x, textPosition.y);
   }
 
+  // New function to draw the image to fit the canvas
   function drawImageToFitCanvas() {
     const canvasAspect = canvas.width / canvas.height;
     const imageAspect = image.naturalWidth / image.naturalHeight;
